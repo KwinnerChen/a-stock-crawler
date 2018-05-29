@@ -59,23 +59,22 @@ class IPPool():
 
     def _storage(self, q, f):
         while True:
-            if not q.empty():
-                try:
-                    f.write(q.get(timeout=1)+'\n')
-                except (Empty,ValueError):
-                    return
+            try:
+                f.write(q.get(timeout=3)+'\n')
+            except (Empty,ValueError):
+                return
 
     def _refresh(self):    #刷新IP文档，存储通过测试的IP
         q = Queue()
         with open(self.file_path, 'w') as f:
             html = self._page_downloader()
             ip_generator = self._page_parse(html)
+            t1 = Thread(target=self._storage, args=(q, f))
+            t1.start()
             for ip in ip_generator:
                 t = Thread(target=self._tested_queue, args=(ip, q))
                 t.start()
-            t1 = Thread(target=self._storage, args=(q, f))
-            t1.start()
-            t.join()
+            t1.join()
         print('更新完成！')
 
     @property

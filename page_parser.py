@@ -14,9 +14,12 @@ from lxml import etree
 # ul = list(map(get_num, ul))
 # sock_dict = dict(zip(sl, ul))
 # with open('sock_dict.json', 'w') as f:
-#     json.dump(sock_dict, f)
+#     json.dump
 
-def page_parser(html, x_path):
-    tree = etree.HTML(html)
-    l = tree.xpath(x_path)
-    return l
+class PagePaser():
+    def __init__(self, html):
+        self.tree = etree.HTML(html)
+
+    def get_by_xpath(self, x_path):
+        l = self.tree.xpath(x_path)
+        return l
