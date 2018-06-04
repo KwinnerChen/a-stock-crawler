@@ -6,8 +6,8 @@ from selenium.common import exceptions
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 import random, requests
 
-'''该模块定义两个类，GetHTML和GetHTMLBySele，前者使用requests库，后者使用了selenium及无头浏览器。
-   两者都有一个get_page方法，该方法返回实例化url的HTML文件'''
+'''该模块定义了一个get_page()方法和一个GetHTMLBySele类。前者使用requests库，后者使用了selenium及无头浏览器。
+   '''
 
 USER_AGENTS = [
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
@@ -63,6 +63,7 @@ def get_page(url, header=None, data=None, cookie=None, proxy=None, timeout=None)
 
 class GetHTMLBySele():
     '''实例化时有两个可选参数，driver和proxies。driver为使用的浏览器名, proxies为代理服务器地址如：'http://1.2.3.4:5'
+
     '''
     def __init__(self, driver='firefox', proxy=None):
         self.driver = driver.lower()

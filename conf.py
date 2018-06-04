@@ -5,38 +5,43 @@ INFO_URL = 'https://gupiao.baidu.com/stock/{0}.html'
 # 使用的数据库（支持Mongodb，Mysql）
 DATABASE = 'mysql'
 
-# 集合名（MongoDB）
-COLLECTION_NAME = 'chn_stock'
+# 集合名（仅用于MongoDB）
+# COLLECTION_NAME = 'chn_stock'
 
-# 仅用于MySQL数据库，表名，还有字段定义。
+# 仅用于MySQL数据库，表名，还有字段定义。（注意：不需定义id，和时间，默认定义。）
 TABLE_STRUCTOR ={'chn_stock':
                      {
-                         '今开':'float',
-                         '昨收':'float',
-                         '最高':'float',
-                         '最低':'float',
-                         '成交量':'int',
-                         '市值':'bigint',
-                         '52周高':'float',
-                         '52周低':'float',
-                         '每股收益':'float',
-                         '市盈率':'float',
+                         '股票名称':'text',
+                         '今开':'text',
+                         '成交量':'text',
+                         '最高':'text',
+                         '涨停':'text',
+                         '内盘':'text',
+                         '成交额':'text',
+                         '委比':'text',
+                         '流通市值':'text',
+                         '市盈率':'text',
+                         '每股收益':'text',
+                         '总股本':'text',
+                         '昨收':'text',
+                         '换手率':'text',
+                         '最低':'text',
+                         '跌停':'text',
+                         '外盘':'text',
+                         '振幅':'text',
+                         '量比':'text',
+                         '总市值':'text',
+                         '市净率':'text',
+                         '每股净资产':'text',
+                         '流通股本':'text',
+                         '净值':'text',
+                         '折价率':'text',
+
                      },
                 }
 
 # 股票信息提取Xpath表达式
-INFO_XPATH = {
-    '今开': '//div[@class="bets-col-10"]//dd[1]/text()',
-    '昨收': '//div[@class="bets-col-10"]//dd[2]/text()',
-    '最高': '//div[@class="bets-col-10"]//dd[3]/text()',
-    '最低': '//div[@class="bets-col-10"]//dd[4]/text()',
-    '成交量': '//div[@class="bets-col-10"]//dd[5]/text()',
-    '市值': '//div[@class="bets-col-10"]//dd[6]/text()',
-    '52周高': '//div[@class="bets-col-10"]//dd[7]/text()',
-    '52周低': '//div[@class="bets-col-10"]//dd[8]/text()',
-    '每股收益': '//div[@class="bets-col-10"]//dd[9]/text()',
-    '市盈率': '//div[@class="bets-col-10"]//dd[10]/text()',
-}
+
 
 # 无头浏览器
 # WEBDRIVER = 'Firefox'

@@ -5,7 +5,7 @@ from page_downloader import get_page
 from page_parser import PagePaser
 import os, json
 
-file_path = 'stock_dict.json'
+file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'stock_dict.json')
 
 def _read_json():
     with open(file_path, 'r') as f:
@@ -40,9 +40,10 @@ class DownloadErro(Exception):
         self.info = info
 
     def __str__(self):
-        return '下载出错：%s' % self.info
+        return ' 下载出错：%s' % self.info
 
     __repr__ = __str__
 
 if __name__ == '__main__':
-    print(get())
+    dic = get()
+    print(len(dic))

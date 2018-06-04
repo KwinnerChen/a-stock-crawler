@@ -130,4 +130,8 @@ class IPPool():
                         return ips_list
 if __name__ == '__main__':
     ip = IPPool()
-    print(ip.get_ip)
+    while True:
+        proxy = ip.get_ip
+        if proxy:
+            print(proxy)
+            break
