@@ -14,10 +14,12 @@ def _read_json():
 
 def get():
     if os.path.exists(file_path) and os.path.getsize(file_path)>0:
+        print('加载股票列表......')
         l = _read_json()
         return l
     else:
         _refresh()
+        print('加载股票列表......')
         l = _read_json()
         return l
 

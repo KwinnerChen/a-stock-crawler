@@ -10,14 +10,22 @@ class StorageMethodError(Exception):
     __repr__ = __str__
 
 class DataBase():
-    '''用于将数据存储到数据库，使用前确保启动了数据库服务，支持MongoDB和MySQL。mongodb使用store_to_mongo()方法，MySQL使用store_to_mysql()方法。
+    '''
+       用于将数据存储到数据库，使用前确保启动了数据库服务，支持MongoDB和MySQL。mongodb使用store_to_mongo()方法，MySQL使用store_to_mysql()方法。
        用于存储的数据须是字典类型。最后可用close()方法关闭数据库。
        -dbtype: 数据库类型，Mongodb或者MySQL。
-       -dbname: 数据库名，字符串。
+       -dbname: 数据库名，字符串，不存在自动创建。
        -host: 数据库地址，默认localhost。
        -port: 数据库地址端口，Mongodb默认为27017，MySQL默认为3306
        -username: 用户名，MySQL默认为root，str。
-       -password: 用户密码，str。'''
+       -password: 用户密码，str。
+       >>> mydb = DataBase('mysql', 'test', password='1234')
+       >>> mydb.store_to_mysql(a_table_structor, info)
+       >>> mydb.close()
+       >>> mydb = DataBase('mongodb', 'test')
+       >>> mydb.store_to_mongo(a_collection_name, info)
+       >>> mydb.close()
+       '''
     def __init__(self, dbtype, dbname, host=None, port=None, username=None, password=None):
         self.dbtype = dbtype
         if self.dbtype.lower() == 'mongodb':
@@ -105,6 +113,7 @@ class DataBase():
             raise StorageMethodError
 
     def close(self):   # 用于关闭数据库连接
+        '''关闭数据库连接。'''
         if self.dbtype.lower() == 'mysql':
             self.db.close()
         elif self.dbtype.lower() == 'mongodb':

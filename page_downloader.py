@@ -46,19 +46,26 @@ USER_AGENTS = [
     "Mozilla/5.0 (X11; U; Linux x86_64; zh-CN; rv:1.9.2.10) Gecko/20100922 Ubuntu/10.10 (maverick) Firefox/3.6.10"
 ]
 
-def get_page(url, header=None, data=None, cookie=None, proxy=None, timeout=None):
+def get_page(url, method='Get', header=None, data=None, cookie=None, proxy=None, timeout=None):
     '''URL为必须参数'''
     try:
-        if header:
-            response = requests.get(url, headers={'User-Agent':random.choice(USER_AGENTS)}.update(header), data=data, cookies=cookie, proxies=proxy, timeout=timeout)
-        else:
-            response = requests.get(url, headers={'User-Agent':random.choice(USER_AGENTS)}, data=data, cookies=cookie, proxies=proxy, timeout=timeout)
+        if method.lower() == 'get':
+            if header:
+                response = requests.get(url, headers={'User-Agent':random.choice(USER_AGENTS)}.update(header), params=data, cookies=cookie, proxies=proxy, timeout=timeout)
+            else:
+                response = requests.get(url, headers={'User-Agent':random.choice(USER_AGENTS)}, params=data, cookies=cookie, proxies=proxy, timeout=timeout)
+        elif method.lower() == 'post':
+            if header:
+                response = requests.post(url, headers={'User-Agent':random.choice(USER_AGENTS)}.update(header), data=data, cookies=cookie, proxies=proxy, timeout=timeout)
+            else:
+                response = requests.post(url, headers={'User-Agent':random.choice(USER_AGENTS)}, data=data, cookies=cookie, proxies=proxy, timeout=timeout)
         response.raise_for_status()
         response.encoding = response.apparent_encoding
         html = response.text
+        print('%s下载完成！' % url)
         return html
     except Exception as e:
-        print('页面下载出错，错误是：%s' % e)
+        print('%s下载出错，错误是：%s' % (url,e))
         return
 
 class GetHTMLBySele():
@@ -100,14 +107,16 @@ class GetHTMLBySele():
             self.browser.get(url)
             html = self.browser.page_source
             self.browser.delete_all_cookies()
+            print('%s下载完成！' % url)
             return html
         except Exception as e:
-            print('URL访问失败！%s'%e)
+            print('%s访问失败！%s'%(url,e))
         finally:
             self.browser.close()
 
     def quit_browser(self):
         self.browser.quit()
+        print('退出浏览器！')
 
 
 
@@ -117,5 +126,5 @@ if __name__ == '__main__':
     print(ip)
     # ge = GetHTMLBySele(proxy=ip)
     # html = ge.get_page('http://www.httpbin.org/ip')
-    html = get_page('http://www.baidu.com', proxy=ip)
+    html = get_page('http://www.httpbin.org/ip')
     print(html)
