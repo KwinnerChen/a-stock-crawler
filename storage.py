@@ -26,7 +26,7 @@ class DataBase():
        >>> mydb.store_to_mongo(a_collection_name, info)
        >>> mydb.close()
        '''
-    def __init__(self, dbtype, dbname, host=None, port=None, username=None, password=None):
+    def __init__(self, dbtype, dbname, host=None, port=None, username=None, password=None): # 初始化数据库连接
         self.dbtype = dbtype
         if self.dbtype.lower() == 'mongodb':
             self.username = username

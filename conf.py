@@ -3,7 +3,15 @@
 INFO_URL = 'https://gupiao.baidu.com/stock/{0}.html'
 
 # 使用的数据库（支持Mongodb，Mysql）
-DATABASE = 'mysql'
+DATABASE = {
+    'dbtype':'mysql',
+    'dbname':'stock',
+    'host':None,          # host，port可以不定义，定义为None则使用默认值。对于username， password则应在数据库中率先定义，否则连接出错。
+    'port':None,
+    'username':'root',
+    'password':'1234',
+
+}
 
 # 集合名（仅用于MongoDB）
 # COLLECTION_NAME = 'chn_stock'
@@ -41,7 +49,10 @@ TABLE_STRUCTOR ={'chn_stock':
                 }
 
 # 股票信息提取Xpath表达式
-
+Xpath = {
+    'field':'//div[@class="bets-content"]//dt/text()',
+    'content':'//div[@class="bets-content"]//dd/text()'
+}
 
 # 无头浏览器
 # WEBDRIVER = 'Firefox'

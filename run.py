@@ -1,6 +1,6 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+import threading
 from threading import Thread
 from multiprocessing import Process, Queue
 from page_downloader import get_page
@@ -18,8 +18,8 @@ def ip_put(ippool, q_ip):  # 在ip队列中循环放入代理ip
             q_ip.put(ip)
 
 def task_put(stock_dict, q_t):  # 提取股票名和代码，以元组的方式放入任务列队
-    for k,v in stock_dict.items():
-        q_t.put((k,v))
+    while True:
+        q_t.put(stock_dict.popitem())
 
 def task_process(url, proxy, stock_name, q_r):  # 任务处理函数，使用代理IP，接受任务列队，结果以字典形式存入结果列队
     stock_dic = dict()
@@ -32,9 +32,9 @@ def task_process(url, proxy, stock_name, q_r):  # 任务处理函数，使用代
         num = page.get_by_xpath('//div[@class="bets-content"]//dd/text()')
         num = map(lambda x: x.strip(), num)
         stock_dic.update(dict(zip(colum, num)))
-        print(stock_dic)
+        # print(stock_dic)
         q_r.put(stock_dic)
-        print('%s提取完成。'%stock_name)
+        print('%s %s提取完成。' % (threading.current_thread().name,stock_name))
     except ValueError:
         print('没有%s股票信息。' % stock_name )
 
@@ -61,8 +61,8 @@ def store(db, db_structor, q_r):
             return
 
 if __name__ == '__main__':
-    q_ip = Queue(50) # 代理ip队列
-    q_t = Queue(50) # 任务队列
+    q_ip = Queue(maxsize=50) # 代理ip队列
+    q_t = Queue(maxsize=15) # 任务队列
     q_r = Queue() # 结果队列
     ippool = IPPool()
     proc_ip = Process(target=ip_put, args=(ippool, q_ip,))
@@ -73,13 +73,19 @@ if __name__ == '__main__':
     url_base = conf.INFO_URL
     proc_r = Process(target=task_process_thread, args=(url_base, task_process, q_ip, q_r, q_t))
     proc_r.start()
-    db = DataBase('mysql', 'stock', password='1234')
+    dbtype = conf.DATABASE.get('dbtype')
+    dbname = conf.DATABASE.get('dbname')
+    password = conf.DATABASE.get('password')
+    db = DataBase(dbtype=dbtype, dbname=dbname, password=password)
     proc_s = Process(target=store, args=(db, conf.TABLE_STRUCTOR, q_r,))
     proc_s.start()
     proc_s.join()
     proc_ip.terminate()
+    proc_t.terminate()
+    proc_r.terminate()
     if not q_t.empty():
         print('任务没有爬取完全！')
     if not q_r.empty():
         print('任务没有存储完全！')
+    db.close()
     print('爬取完成！')
