@@ -1,8 +1,11 @@
-# !/usr/bin/env python3
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
+# author: Kwinner Chen
+
 
 import pymongo
 from mysql.connector import Connect
+
 
 class StorageMethodError(Exception):
     def __str__(self):

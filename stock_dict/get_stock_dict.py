@@ -1,11 +1,14 @@
-# !/usr/bin/env python3
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
+# author: Kwinner Chen
 
 '''模块用于获取股票的名称和代码列表，已字典形式存储在json文件中，存在直接读取，不存在则从网络获取。'''
+
 
 from page_downloader import get_page
 from page_parser import PagePaser
 import os, json
+
 
 file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'stock_dict.json')
 

@@ -1,7 +1,10 @@
-# !/usr/bin/env python3
+#! /usr/bin/env python3
 # -*- coding:utf-8 -*-
+# author: Kwinner Chen
+
 
 from lxml import etree
+
 
 class PagePaser():
     def __init__(self, html):

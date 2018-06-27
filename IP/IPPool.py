@@ -1,10 +1,13 @@
-# !/usr/bin/env python3
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
+# author: Kwinner Chen
+
 
 import time
 import requests, re, random, os
 from threading import Thread
 from queue import Queue, Empty
+
 
 class IPPool():
     '''一个小型IP池，十几个可用的HTTP代理，实例化时可以自行更换源地址（可能需要更改一下提取规则）。

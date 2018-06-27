@@ -1,10 +1,13 @@
-# !/usr/bin/env python3
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
+# author: Kwinner Chen
+
 
 from selenium import webdriver
 from selenium.common import exceptions
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 import random, requests
+
 
 '''该模块用于页面的下载，定义了一个get_page()方法和一个GetHTMLBySele类。前者使用requests库，支持get和post请求方式，默认使用用户代理池。
    后者使用了selenium及无头浏览器，可以使用代理服务器，默认不保存cookie。
