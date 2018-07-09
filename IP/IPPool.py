@@ -115,7 +115,7 @@ class IPPool():
                 for ip in ip_list:
                     ips_list.append({'http': 'http://%s' % ip.strip()})
                     return ips_list
-        elif os.path.isfile(self.file_path) and os.path.getsize(self.file_path) and int(time.time()-os.path.getctime(self.file_path))%1800!=0:
+        elif os.path.isfile(self.file_path) and os.path.getsize(self.file_path) and int(time.time()-os.path.getmtime(self.file_path))<1800:
             with open(self.file_path, 'r') as f:
                 ip_list = f.readlines()
                 for ip in ip_list:
